@@ -1,7 +1,6 @@
-import { Container, Group, Image, Button, Text } from "@mantine/core";
+import { Container, Group, Button } from "@mantine/core";
 import { useMantineColorScheme, useComputedColorScheme } from "@mantine/core";
 import { IconSun, IconMoon } from "@tabler/icons-react";
-import classes from "./Header.module.css";
 import { useHotkeys } from "@mantine/hooks";
 
 export function Header() {
@@ -13,27 +12,17 @@ export function Header() {
   useHotkeys([["mod+L", () => toggleColorScheme()]]);
 
   return (
-    <header className={classes.header}>
-      <Container>
-        <Group justify="space-between">
-          <Group>
-            <Image
-              src="/easy-bullet-journal.svg"
-              alt="Easy Bullet Journal"
-              height={32}
-            />
-            <Text>Easy Bullet Journal</Text>
-          </Group>
-          <Group gap={5}>
-            <Button
-              onClick={() => toggleColorScheme()}
-              variant="subtle"
-              size="xs"
-              color={computedColorScheme === "dark" ? "orange" : "blue"}
-            >
-              {computedColorScheme === "dark" ? <IconSun /> : <IconMoon />}
-            </Button>
-          </Group>
+    <header>
+      <Container fluid py={16}>
+        <Group gap={5} justify="flex-end">
+          <Button
+            onClick={() => toggleColorScheme()}
+            variant="subtle"
+            size="xs"
+            color={computedColorScheme === "dark" ? "orange" : "blue"}
+          >
+            {computedColorScheme === "dark" ? <IconSun /> : <IconMoon />}
+          </Button>
         </Group>
       </Container>
     </header>
