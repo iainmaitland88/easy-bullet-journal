@@ -1,50 +1,19 @@
-# React + TypeScript + Vite
+# Easy Bullet Journal
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Easy Bullet Journal is a simple, easy-to-use app for maintaining a [bullet journal](https://en.wikipedia.org/wiki/Bullet_journal) built with React and TypeScript. I started using bullet journals in 2024 and have found them to be a great way to keep me organised at work. What I haven't found great is trying to read my own handwriting, losing my notebook, etc. After a few miserable attempts at using Notion I've decided to have a go at building my own app.
 
-Currently, two official plugins are available:
+As a primarily backend engineer with not that much React experience I've been interested in building an offline-first app with no backend for a while and this seemed as good a reason as any to try. My goals for this project then are:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- First and foremost, build a simple, easy-to-use bullet journalling app that is a joy to use
+- Have it work offline-first with no backend
+- Persist data locally in the browser between sessions
+- Export/import data so that it can be used on different devices
+  - Eventually add support for syncing with other devices via iCloud, Google Drive, Dropbox or similar
+- Where practical, use keyboard shortcuts -- I hate using the mouse if I can avoid it.
 
-## Expanding the ESLint configuration
+## Keyboard Shortcuts
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+I'll try to remember to document the shortcuts here as I add them, but the main ones are:
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-});
-```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from "eslint-plugin-react";
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: "18.3" } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs["jsx-runtime"].rules,
-  },
-});
-```
+- `mod+N` - Add a new task
+- `mod+L` - Toggle light/dark mode
