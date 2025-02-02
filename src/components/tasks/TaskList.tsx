@@ -1,5 +1,5 @@
 import { Task } from "./models";
-import { Checkbox, Group } from "@mantine/core";
+import { Checkbox, Group, Tooltip } from "@mantine/core";
 function TaskListItem({
   task,
   onCompleteTask,
@@ -9,13 +9,20 @@ function TaskListItem({
 }) {
   return (
     <Group>
-      <Checkbox
-        defaultChecked={task.completed}
-        onChange={(e) => {
-          e.stopPropagation();
-          onCompleteTask(task.toggleCompleted());
-        }}
-      />
+      <Tooltip
+        label={task.completed ? "Mark as incomplete" : "Mark as complete"}
+        withArrow
+      >
+        <div>
+          <Checkbox
+            defaultChecked={task.completed}
+            onChange={(e) => {
+              e.stopPropagation();
+              onCompleteTask(task.toggleCompleted());
+            }}
+          />
+        </div>
+      </Tooltip>
       <span
         style={{ textDecoration: task.completed ? "line-through" : "none" }}
       >
