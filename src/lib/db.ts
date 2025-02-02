@@ -32,7 +32,8 @@ export const getAllTasks = async (): Promise<Task[]> => {
     const store = transaction.objectStore(STORE_NAME);
     const request = store.getAll();
 
-    request.onsuccess = () => resolve(request.result.map((task) => Task.fromJSON(task)));
+    request.onsuccess = () =>
+      resolve(request.result.map((task) => Task.fromJSON(task)));
     request.onerror = () => reject(request.error);
   });
 };
