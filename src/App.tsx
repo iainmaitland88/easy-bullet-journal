@@ -31,7 +31,6 @@ function App() {
   };
 
   const completeTask = async (task: Task) => {
-    console.log(task);
     try {
       await db.updateTask(task);
       setTasks(tasks.map((t) => (t.id === task.id ? task : t)));
