@@ -24,7 +24,7 @@ export function NewTaskModal({ onSubmit }: { onSubmit: (task: Task) => void }) {
   const [opened, { open, close }] = useDisclosure(false);
 
   const handleSubmit = (values: FormValues) => {
-    onSubmit(new Task(values.description));
+    onSubmit(Task.create(values.description));
     form.reset();
     close();
   };

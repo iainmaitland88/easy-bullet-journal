@@ -9,10 +9,14 @@ export class Task {
   description: string;
   completed: boolean;
 
-  constructor(description: string, completed = false, id?: string) {
+  private constructor(description: string, completed = false, id?: string) {
     this.id = id ?? crypto.randomUUID();
     this.description = description;
     this.completed = completed;
+  }
+
+  static create(description: string, completed = false, id?: string): Task {
+    return new Task(description, completed, id);
   }
 
   toggleCompleted(): Task {
