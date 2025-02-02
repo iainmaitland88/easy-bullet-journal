@@ -5,7 +5,6 @@ import "@mantine/core/styles.css";
 
 import { createTheme, MantineProvider } from "@mantine/core";
 
-// Your theme configuration is merged with default theme
 const theme = createTheme({
   fontFamily: "Montserrat, sans-serif",
   defaultRadius: "md",
