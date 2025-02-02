@@ -30,7 +30,13 @@ export class Task {
   static create(description: string, completed = false): Task {
     const createdAt = new Date();
     const updatedAt = createdAt;
-    return new Task(description, completed, crypto.randomUUID(), createdAt, updatedAt);
+    return new Task(
+      description,
+      completed,
+      crypto.randomUUID(),
+      createdAt,
+      updatedAt,
+    );
   }
 
   toggleCompleted(): Task {
