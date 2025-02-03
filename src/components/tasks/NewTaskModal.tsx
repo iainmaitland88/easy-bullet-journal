@@ -2,6 +2,7 @@ import { Modal, TextInput, Button, Stack, Group } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useDisclosure, useHotkeys } from "@mantine/hooks";
 import { Task } from "./models";
+import classes from "./NewTaskModal.module.css";
 
 type FormValues = {
   description: string;
@@ -36,7 +37,15 @@ export function NewTaskModal({ onSubmit }: { onSubmit: (task: Task) => void }) {
 
   return (
     <>
-      <Modal opened={opened} onClose={handleClose} title="New Task">
+      <Modal
+        opened={opened}
+        onClose={handleClose}
+        title="New Task"
+        classNames={{
+          content: classes.modal,
+          header: classes.header,
+        }}
+      >
         <form onSubmit={form.onSubmit(handleSubmit)}>
           <Stack>
             <TextInput

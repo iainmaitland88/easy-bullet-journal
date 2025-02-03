@@ -2,6 +2,7 @@ import { IconTrashX } from "@tabler/icons-react";
 import { Task } from "./models";
 import { Button, Checkbox, Group, Paper, Tooltip } from "@mantine/core";
 import { useState } from "react";
+import classes from "./TaskList.module.css";
 
 function TaskListItem({
   task,
@@ -16,10 +17,7 @@ function TaskListItem({
 
   return (
     <Paper
-      bg="var(--mantine-color-dark-5)"
-      radius="md"
-      p="md"
-      mb="md"
+      className={classes.taskItem}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

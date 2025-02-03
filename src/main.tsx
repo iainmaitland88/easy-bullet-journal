@@ -2,24 +2,25 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 import "@mantine/core/styles.css";
+import "./global.module.css";
 
-import { createTheme, MantineProvider } from "@mantine/core";
+import { createTheme, MantineProvider, Modal } from "@mantine/core";
 
 const theme = createTheme({
   fontFamily: "Montserrat, sans-serif",
   defaultRadius: "md",
   colors: {
     dark: [
-      "#D1D5DB", // 0 - Lightest
-      "#9CA3AF", // 1
-      "#6B7280", // 2
-      "#4B5563", // 3
-      "#374151", // 4
-      "#0A101C", // 5 - Secondary background
-      "#030712", // 6 - Main background
-      "#010510", // 7 - Darker sections
-      "#01040E", // 8 - Deepest background
-      "#00030C", // 9 - Darkest
+      "#D1D5DB",
+      "#9CA3AF",
+      "#6B7280",
+      "#4B5563",
+      "#374151",
+      "#0A101C",
+      "#030712",
+      "#010510",
+      "#01040E",
+      "#00030C",
     ],
     magenta: [
       "#ffe9f6",
@@ -35,6 +36,16 @@ const theme = createTheme({
     ],
   },
   primaryColor: "magenta",
+  components: {
+    Modal: Modal.extend({
+      defaultProps: {
+        overlayProps: {
+          blur: 3,
+          backgroundOpacity: 0.55,
+        },
+      },
+    }),
+  },
 });
 
 createRoot(document.getElementById("root")!).render(
