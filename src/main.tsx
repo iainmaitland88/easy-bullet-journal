@@ -10,16 +10,16 @@ const theme = createTheme({
   defaultRadius: "md",
   colors: {
     dark: [
-      "#C1C2C5", // 0
-      "#A6A7AB", // 1
-      "#909296", // 2
-      "#5C5F66", // 3
-      "#373A40", // 4
-      "#2C2E33", // 5 - Main background
-      "#25262B", // 6 - Secondary background
-      "#1A1B1E", // 7 - Darker sections
-      "#141517", // 8 - Deepest background
-      "#101113", // 9
+      "#D1D5DB", // 0 - Lightest
+      "#9CA3AF", // 1
+      "#6B7280", // 2
+      "#4B5563", // 3
+      "#374151", // 4
+      "#0A101C", // 5 - Secondary background
+      "#030712", // 6 - Main background
+      "#010510", // 7 - Darker sections
+      "#01040E", // 8 - Deepest background
+      "#00030C", // 9 - Darkest
     ],
     magenta: [
       "#ffe9f6",

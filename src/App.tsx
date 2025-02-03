@@ -39,11 +39,24 @@ function App() {
     }
   };
 
+  const deleteTask = async (task: Task) => {
+    try {
+      await db.deleteTask(task.id);
+      setTasks(tasks.filter((t) => t.id !== task.id));
+    } catch (error) {
+      console.error("Failed to delete task:", error);
+    }
+  };
+
   return (
     <>
       <Header />
       <Container>
-        <TaskList tasks={tasks} onCompleteTask={completeTask} />
+        <TaskList
+          tasks={tasks}
+          onCompleteTask={completeTask}
+          onDeleteTask={deleteTask}
+        />
         <NewTaskModal onSubmit={addTask} />
       </Container>
     </>
