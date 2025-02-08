@@ -15,5 +15,5 @@ As a primarily backend engineer with not that much React experience I've been in
 
 I'll try to remember to document the shortcuts here as I add them, but the main ones are:
 
-- `mod+N` - Add a new task
-- `mod+L` - Toggle light/dark mode
+- `ctrl+N` - Add a new task
+- `ctrl+L` - Toggle light/dark mode
