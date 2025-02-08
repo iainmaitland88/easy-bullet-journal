@@ -11,10 +11,12 @@ import {
   IconArrowBigLeftLines,
   IconArrowBigRightLines,
 } from "@tabler/icons-react";
+import { DeleteTaskModal } from "../../components/tasks/DeleteTaskModal";
 
 export function Tasks() {
   const { date: dateParam } = useParams();
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [taskToDelete, setTaskToDelete] = useState<Task | null>(null);
 
   const targetDate = useMemo(() => {
     if (!dateParam) return new Date();
@@ -92,9 +94,19 @@ export function Tasks() {
           date={targetDate}
           tasks={tasks}
           onCompleteTask={completeTask}
-          onDeleteTask={deleteTask}
+          onDeleteTask={setTaskToDelete}
         />
         <NewTaskModal onSubmit={addTask} date={targetDate} />
+        <DeleteTaskModal
+          onConfirm={() => {
+            if (taskToDelete) {
+              deleteTask(taskToDelete);
+              setTaskToDelete(null);
+            }
+          }}
+          onCancel={() => setTaskToDelete(null)}
+          task={taskToDelete}
+        />
       </Container>
     </>
   );
