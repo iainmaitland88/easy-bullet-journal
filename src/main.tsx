@@ -1,11 +1,11 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import App from "./App.tsx";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router";
 import "@mantine/core/styles.css";
 import "./global.module.css";
 
 import { createTheme, MantineProvider, Modal } from "@mantine/core";
-
+import { Tasks } from "./pages/tasks/Tasks.tsx";
 const theme = createTheme({
   fontFamily: "Montserrat, sans-serif",
   defaultRadius: "md",
@@ -51,7 +51,12 @@ const theme = createTheme({
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <MantineProvider theme={theme} defaultColorScheme="auto">
-      <App />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Navigate to="/tasks" />} />
+          <Route path="/tasks/:date?" element={<Tasks />} />
+        </Routes>
+      </BrowserRouter>
     </MantineProvider>
   </StrictMode>,
 );

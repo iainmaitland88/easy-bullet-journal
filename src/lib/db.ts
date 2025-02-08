@@ -38,6 +38,30 @@ export const getAllTasks = async (): Promise<Task[]> => {
   });
 };
 
+export const getTasksByDate = async (date: Date): Promise<Task[]> => {
+  const db = await initDB();
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction(STORE_NAME, "readonly");
+    const store = transaction.objectStore(STORE_NAME);
+    const request = store.getAll();
+
+    request.onsuccess = () => {
+      const tasks = request.result
+        .map((task) => Task.fromJSON(task))
+        .filter((task) => {
+          const taskDate = new Date(task.date);
+          return (
+            taskDate.getFullYear() === date.getFullYear() &&
+            taskDate.getMonth() === date.getMonth() &&
+            taskDate.getDate() === date.getDate()
+          );
+        });
+      resolve(tasks);
+    };
+    request.onerror = () => reject(request.error);
+  });
+};
+
 export const addTask = async (task: Task): Promise<void> => {
   const db = await initDB();
   return new Promise((resolve, reject) => {

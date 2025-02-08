@@ -1,6 +1,6 @@
 import { IconTrashX } from "@tabler/icons-react";
 import { Task } from "./models";
-import { Button, Checkbox, Group, Paper, Tooltip } from "@mantine/core";
+import { Button, Checkbox, Group, Paper, Text, Tooltip } from "@mantine/core";
 import { useState } from "react";
 import classes from "./TaskList.module.css";
 
@@ -68,17 +68,23 @@ function TaskListItem({
 }
 
 export function TaskList({
+  date,
   tasks,
   onCompleteTask,
   onDeleteTask,
 }: {
+  date: Date;
   tasks: Task[];
   onCompleteTask: (task: Task) => void;
   onDeleteTask: (task: Task) => void;
 }) {
   return (
     <div>
-      <h1>Tasks</h1>
+      <Text component="h1" size="xl" fw={700} mb="md">
+        {Intl.DateTimeFormat(navigator.language, { dateStyle: "full" }).format(
+          date,
+        )}
+      </Text>
       {tasks.map((task) => (
         <TaskListItem
           key={task.id}

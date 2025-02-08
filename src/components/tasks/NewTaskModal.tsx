@@ -8,8 +8,14 @@ type FormValues = {
   description: string;
 };
 
-export function NewTaskModal({ onSubmit }: { onSubmit: (task: Task) => void }) {
-  useHotkeys([["mod+N", () => open()]]);
+export function NewTaskModal({
+  onSubmit,
+  date,
+}: {
+  onSubmit: (task: Task) => void;
+  date: Date;
+}) {
+  useHotkeys([["ctrl+N", () => open()]]);
 
   const form = useForm<FormValues>({
     mode: "uncontrolled",
@@ -25,7 +31,7 @@ export function NewTaskModal({ onSubmit }: { onSubmit: (task: Task) => void }) {
   const [opened, { open, close }] = useDisclosure(false);
 
   const handleSubmit = (values: FormValues) => {
-    onSubmit(Task.create(values.description, false));
+    onSubmit(Task.create(values.description, date));
     form.reset();
     close();
   };

@@ -9,7 +9,7 @@ export function Header() {
   const toggleColorScheme = () =>
     setColorScheme(computedColorScheme === "dark" ? "light" : "dark");
 
-  useHotkeys([["mod+L", () => toggleColorScheme()]]);
+  useHotkeys([["ctrl+L", () => toggleColorScheme()]]);
 
   return (
     <header>
