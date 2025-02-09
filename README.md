@@ -19,3 +19,4 @@ I'll try to remember to document the shortcuts here as I add them, but the main 
 - `ctrl+l` - Toggle light/dark mode
 - `ctrl+n` - Go to next day
 - `ctrl+p` - Go to previous day
+- `ctrl+0` - Go to today

@@ -27,6 +27,7 @@ export function Tasks() {
   const navigate = useNavigate();
   useHotkeys([["ctrl+n", () => navigate(nextPage)]]);
   useHotkeys([["ctrl+p", () => navigate(prevPage)]]);
+  useHotkeys([["ctrl+0", () => navigate("/tasks")]]);
 
   const tasks = useTasksForDate(targetDate);
 
@@ -51,9 +52,17 @@ export function Tasks() {
               Yesterday
             </Button>
           </Tooltip>
-          <Button variant="subtle" component={Link} to={`/tasks`}>
-            Today
-          </Button>
+          <Tooltip
+            label={
+              <>
+                <Kbd>ctrl</Kbd> + <Kbd>0</Kbd>
+              </>
+            }
+          >
+            <Button variant="subtle" component={Link} to={`/tasks`}>
+              Today
+            </Button>
+          </Tooltip>
           <Tooltip
             label={
               <>
