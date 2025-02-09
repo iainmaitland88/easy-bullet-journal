@@ -1,17 +1,19 @@
+import { DeleteTaskModal } from "../../components/tasks/DeleteTaskModal";
 import { IconTrashX } from "@tabler/icons-react";
-import { Task } from "./models";
 import { Button, Checkbox, Group, Paper, Text, Tooltip } from "@mantine/core";
 import { useState } from "react";
 import classes from "./TaskList.module.css";
+import { Task, db } from "../../lib/db";
+import { useCompleteTask } from "../../lib/hooks";
 
 function TaskListItem({
   task,
-  onCompleteTask,
-  onDeleteTask,
+  onDelete,
+  onComplete,
 }: {
   task: Task;
-  onCompleteTask: (task: Task) => void;
-  onDeleteTask: (task: Task) => void;
+  onDelete: (task: Task) => void;
+  onComplete: (task: Task) => void;
 }) {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -32,7 +34,7 @@ function TaskListItem({
                 defaultChecked={task.completed}
                 onChange={(e) => {
                   e.stopPropagation();
-                  onCompleteTask(task.toggleCompleted());
+                  onComplete(task);
                 }}
               />
             </div>
@@ -57,7 +59,7 @@ function TaskListItem({
             variant="subtle"
             size="xs"
             px={4}
-            onClick={() => onDeleteTask(task)}
+            onClick={() => onDelete(task)}
           >
             <IconTrashX />
           </Button>
@@ -67,32 +69,35 @@ function TaskListItem({
   );
 }
 
-export function TaskList({
-  date,
-  tasks,
-  onCompleteTask,
-  onDeleteTask,
-}: {
-  date: Date;
-  tasks: Task[];
-  onCompleteTask: (task: Task) => void;
-  onDeleteTask: (task: Task) => void;
-}) {
+export function TaskList({ date, tasks }: { date: Date; tasks: Task[] }) {
+  const [taskToDelete, setTaskToDelete] = useState<Task | null>(null);
+  const completeTask = useCompleteTask();
+
   return (
     <div>
       <Text component="h1" size="xl" fw={700} mb="md">
         {Intl.DateTimeFormat(navigator.language, { dateStyle: "full" }).format(
-          date,
+          date
         )}
       </Text>
       {tasks.map((task) => (
         <TaskListItem
           key={task.id}
           task={task}
-          onCompleteTask={onCompleteTask}
-          onDeleteTask={onDeleteTask}
+          onDelete={() => setTaskToDelete(task)}
+          onComplete={completeTask}
         />
       ))}
+      <DeleteTaskModal
+        onConfirm={() => {
+          if (taskToDelete) {
+            db.tasks.delete(taskToDelete.id);
+            setTaskToDelete(null);
+          }
+        }}
+        onCancel={() => setTaskToDelete(null)}
+        task={taskToDelete}
+      />
     </div>
   );
 }

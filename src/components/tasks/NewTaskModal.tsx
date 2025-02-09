@@ -1,20 +1,14 @@
 import { Modal, TextInput, Button, Stack, Group } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useDisclosure, useHotkeys } from "@mantine/hooks";
-import { Task } from "./models";
 import classes from "./NewTaskModal.module.css";
+import { db } from "../../lib/db";
 
 type FormValues = {
   description: string;
 };
 
-export function NewTaskModal({
-  onSubmit,
-  date,
-}: {
-  onSubmit: (task: Task) => void;
-  date: Date;
-}) {
+export function NewTaskModal({ date }: { date: Date }) {
   useHotkeys([["ctrl+N", () => open()]]);
 
   const form = useForm<FormValues>({
@@ -30,8 +24,12 @@ export function NewTaskModal({
 
   const [opened, { open, close }] = useDisclosure(false);
 
-  const handleSubmit = (values: FormValues) => {
-    onSubmit(Task.create(values.description, date));
+  const handleSubmit = async (values: FormValues) => {
+    await db.tasks.add({
+      description: values.description,
+      date,
+      completed: false,
+    });
     form.reset();
     close();
   };
@@ -58,7 +56,6 @@ export function NewTaskModal({
               data-autofocus
               withAsterisk
               label="Description"
-              key={form.values.description}
               placeholder="Walk the dog"
               {...form.getInputProps("description")}
             />

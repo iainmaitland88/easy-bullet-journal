@@ -2,22 +2,17 @@ import { Header } from "../../components/header/Header";
 import { Button, Container, Group } from "@mantine/core";
 import { TaskList } from "../../components/tasks/TaskList";
 import { NewTaskModal } from "../../components/tasks/NewTaskModal";
-import { useEffect, useState, useMemo } from "react";
-import { Task } from "../../components/tasks/models";
-import * as db from "../../lib/db";
+import { useMemo } from "react";
 import { Link, useParams } from "react-router";
 import { addDays, format, parse, subDays } from "date-fns";
 import {
   IconArrowBigLeftLines,
   IconArrowBigRightLines,
 } from "@tabler/icons-react";
-import { DeleteTaskModal } from "../../components/tasks/DeleteTaskModal";
+import { useTasksForDate } from "../../lib/hooks";
 
 export function Tasks() {
   const { date: dateParam } = useParams();
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const [taskToDelete, setTaskToDelete] = useState<Task | null>(null);
-
   const targetDate = useMemo(() => {
     if (!dateParam) return new Date();
 
@@ -26,44 +21,7 @@ export function Tasks() {
   const yesterday = subDays(targetDate, 1);
   const tomorrow = addDays(targetDate, 1);
 
-  useEffect(() => {
-    const loadTasks = async () => {
-      try {
-        const savedTasks = await db.getTasksByDate(targetDate);
-        setTasks(savedTasks);
-      } catch (error) {
-        console.error("Failed to load tasks:", error);
-      }
-    };
-    loadTasks();
-  }, [targetDate]);
-
-  const addTask = async (task: Task) => {
-    try {
-      await db.addTask(task);
-      setTasks([...tasks, task]);
-    } catch (error) {
-      console.error("Failed to add task:", error);
-    }
-  };
-
-  const completeTask = async (task: Task) => {
-    try {
-      await db.updateTask(task);
-      setTasks(tasks.map((t) => (t.id === task.id ? task : t)));
-    } catch (error) {
-      console.error("Failed to complete task:", error);
-    }
-  };
-
-  const deleteTask = async (task: Task) => {
-    try {
-      await db.deleteTask(task.id);
-      setTasks(tasks.filter((t) => t.id !== task.id));
-    } catch (error) {
-      console.error("Failed to delete task:", error);
-    }
-  };
+  const tasks = useTasksForDate(targetDate);
 
   return (
     <>
@@ -90,23 +48,8 @@ export function Tasks() {
             Tomorrow
           </Button>
         </Group>
-        <TaskList
-          date={targetDate}
-          tasks={tasks}
-          onCompleteTask={completeTask}
-          onDeleteTask={setTaskToDelete}
-        />
-        <NewTaskModal onSubmit={addTask} date={targetDate} />
-        <DeleteTaskModal
-          onConfirm={() => {
-            if (taskToDelete) {
-              deleteTask(taskToDelete);
-              setTaskToDelete(null);
-            }
-          }}
-          onCancel={() => setTaskToDelete(null)}
-          task={taskToDelete}
-        />
+        {tasks && <TaskList date={targetDate} tasks={tasks} />}
+        <NewTaskModal date={targetDate} />
       </Container>
     </>
   );
