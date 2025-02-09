@@ -77,7 +77,7 @@ export function TaskList({ date, tasks }: { date: Date; tasks: Task[] }) {
     <div>
       <Text component="h1" size="xl" fw={700} mb="md">
         {Intl.DateTimeFormat(navigator.language, { dateStyle: "full" }).format(
-          date
+          date,
         )}
       </Text>
       {tasks.map((task) => (
