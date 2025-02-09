@@ -15,8 +15,8 @@ As a primarily backend engineer with not that much React experience I've been in
 
 I'll try to remember to document the shortcuts here as I add them, but the main ones are:
 
-- `ctrl+o` - Add a new task
-- `ctrl+l` - Toggle light/dark mode
-- `ctrl+n` - Go to next day
-- `ctrl+p` - Go to previous day
-- `ctrl+0` - Go to today
+- `ctrl` + `o` - Add a new task
+- `ctrl` + `l` - Toggle light/dark mode
+- `ctrl` + `n` - Go to next day
+- `ctrl` + `p` - Go to previous day
+- `ctrl` + `0` - Go to today
