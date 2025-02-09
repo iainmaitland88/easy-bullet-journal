@@ -1,4 +1,4 @@
-import { Container, Group, Button } from "@mantine/core";
+import { Container, Group, Button, Tooltip, Kbd } from "@mantine/core";
 import { useMantineColorScheme, useComputedColorScheme } from "@mantine/core";
 import { IconSun, IconMoon } from "@tabler/icons-react";
 import { useHotkeys } from "@mantine/hooks";
@@ -9,20 +9,28 @@ export function Header() {
   const toggleColorScheme = () =>
     setColorScheme(computedColorScheme === "dark" ? "light" : "dark");
 
-  useHotkeys([["ctrl+L", () => toggleColorScheme()]]);
+  useHotkeys([["ctrl+l", () => toggleColorScheme()]]);
 
   return (
     <header>
       <Container fluid py={16}>
         <Group gap={5} justify="flex-end">
-          <Button
-            onClick={() => toggleColorScheme()}
-            variant="subtle"
-            size="xs"
-            color={computedColorScheme === "dark" ? "orange" : "blue"}
+          <Tooltip
+            label={
+              <>
+                <Kbd>ctrl</Kbd> + <Kbd>l</Kbd>
+              </>
+            }
           >
-            {computedColorScheme === "dark" ? <IconSun /> : <IconMoon />}
-          </Button>
+            <Button
+              onClick={() => toggleColorScheme()}
+              variant="subtle"
+              size="xs"
+              color={computedColorScheme === "dark" ? "orange" : "blue"}
+            >
+              {computedColorScheme === "dark" ? <IconSun /> : <IconMoon />}
+            </Button>
+          </Tooltip>
         </Group>
       </Container>
     </header>

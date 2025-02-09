@@ -1,15 +1,16 @@
 import { Header } from "../../components/header/Header";
-import { Button, Container, Group } from "@mantine/core";
+import { Button, Container, Group, Kbd, Tooltip } from "@mantine/core";
 import { TaskList } from "../../components/tasks/TaskList";
 import { NewTaskModal } from "../../components/tasks/NewTaskModal";
 import { useMemo } from "react";
-import { Link, useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import { addDays, format, parse, subDays } from "date-fns";
 import {
   IconArrowBigLeftLines,
   IconArrowBigRightLines,
 } from "@tabler/icons-react";
 import { useTasksForDate } from "../../lib/hooks";
+import { useHotkeys } from "@mantine/hooks";
 
 export function Tasks() {
   const { date: dateParam } = useParams();
@@ -20,6 +21,12 @@ export function Tasks() {
   }, [dateParam]);
   const yesterday = subDays(targetDate, 1);
   const tomorrow = addDays(targetDate, 1);
+  const nextPage = `/tasks/${format(tomorrow, "yyyy-MM-dd")}`;
+  const prevPage = `/tasks/${format(yesterday, "yyyy-MM-dd")}`;
+
+  const navigate = useNavigate();
+  useHotkeys([["ctrl+n", () => navigate(nextPage)]]);
+  useHotkeys([["ctrl+p", () => navigate(prevPage)]]);
 
   const tasks = useTasksForDate(targetDate);
 
@@ -28,25 +35,41 @@ export function Tasks() {
       <Header />
       <Container>
         <Group justify="space-between" mb="md">
-          <Button
-            variant="subtle"
-            component={Link}
-            to={`/tasks/${format(yesterday, "yyyy-MM-dd")}`}
-            leftSection={<IconArrowBigLeftLines />}
+          <Tooltip
+            label={
+              <>
+                <Kbd>ctrl</Kbd> + <Kbd>p</Kbd>
+              </>
+            }
           >
-            Yesterday
-          </Button>
+            <Button
+              variant="subtle"
+              component={Link}
+              to={`/tasks/${format(yesterday, "yyyy-MM-dd")}`}
+              leftSection={<IconArrowBigLeftLines />}
+            >
+              Yesterday
+            </Button>
+          </Tooltip>
           <Button variant="subtle" component={Link} to={`/tasks`}>
             Today
           </Button>
-          <Button
-            variant="subtle"
-            component={Link}
-            to={`/tasks/${format(tomorrow, "yyyy-MM-dd")}`}
-            rightSection={<IconArrowBigRightLines />}
+          <Tooltip
+            label={
+              <>
+                <Kbd>ctrl</Kbd> + <Kbd>n</Kbd>
+              </>
+            }
           >
-            Tomorrow
-          </Button>
+            <Button
+              variant="subtle"
+              component={Link}
+              to={`/tasks/${format(tomorrow, "yyyy-MM-dd")}`}
+              rightSection={<IconArrowBigRightLines />}
+            >
+              Tomorrow
+            </Button>
+          </Tooltip>
         </Group>
         {tasks && <TaskList date={targetDate} tasks={tasks} />}
         <NewTaskModal date={targetDate} />

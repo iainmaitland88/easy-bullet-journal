@@ -9,7 +9,7 @@ type FormValues = {
 };
 
 export function NewTaskModal({ date }: { date: Date }) {
-  useHotkeys([["ctrl+N", () => open()]]);
+  useHotkeys([["ctrl+o", () => open()]]);
 
   const form = useForm<FormValues>({
     mode: "uncontrolled",
