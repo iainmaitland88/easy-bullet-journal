@@ -17,6 +17,7 @@
     "@mantine/modals": "^7.16.2",
     "@tabler/icons-react": "^3.29.0",
     "@vercel/analytics": "^1.5.0",
+    "@vercel/speed-insights": "^1.2.0",
     "date-fns": "^4.1.0",
     "dexie": "^4.0.11",
     "dexie-react-hooks": "^1.1.7",
