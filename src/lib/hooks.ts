@@ -4,7 +4,7 @@ import { startOfDay, endOfDay } from "date-fns";
 import { useState } from "react";
 
 export const useTasksForDate = (
-  date: Date
+  date: Date,
 ): { tasks: Task[] | undefined; isLoading: boolean } => {
   const [isLoading, setIsLoading] = useState(true);
 

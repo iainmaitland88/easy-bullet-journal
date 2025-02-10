@@ -1,6 +1,5 @@
 import { Modal, TextInput, Button, Stack, Group } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { useDisclosure, useHotkeys } from "@mantine/hooks";
 import classes from "./NewTaskModal.module.css";
 import { db } from "../../lib/db";
 
@@ -8,9 +7,15 @@ type FormValues = {
   description: string;
 };
 
-export function NewTaskModal({ date }: { date: Date }) {
-  useHotkeys([["ctrl+o", () => open()]]);
-
+export function NewTaskModal({
+  date,
+  opened,
+  onClose,
+}: {
+  date: Date;
+  opened: boolean;
+  onClose: () => void;
+}) {
   const form = useForm<FormValues>({
     mode: "uncontrolled",
     initialValues: {
@@ -22,8 +27,6 @@ export function NewTaskModal({ date }: { date: Date }) {
     },
   });
 
-  const [opened, { open, close }] = useDisclosure(false);
-
   const handleSubmit = async (values: FormValues) => {
     await db.tasks.add({
       description: values.description,
@@ -31,12 +34,12 @@ export function NewTaskModal({ date }: { date: Date }) {
       completed: false,
     });
     form.reset();
-    close();
+    onClose();
   };
 
   const handleClose = () => {
     form.reset();
-    close();
+    onClose();
   };
 
   return (

@@ -19,7 +19,7 @@ import {
   IconArrowBigRightLines,
 } from "@tabler/icons-react";
 import { useTasksForDate } from "../../lib/hooks";
-import { useHotkeys } from "@mantine/hooks";
+import { useDisclosure, useHotkeys } from "@mantine/hooks";
 
 export function Tasks() {
   const { date: dateParam } = useParams();
@@ -39,6 +39,8 @@ export function Tasks() {
   useHotkeys([["ctrl+0", () => navigate("/tasks")]]);
 
   const { tasks, isLoading } = useTasksForDate(targetDate);
+  const [opened, { open, close }] = useDisclosure(false);
+  useHotkeys([["ctrl+o", () => open()]]);
 
   return (
     <>
@@ -91,11 +93,24 @@ export function Tasks() {
         </Group>
         {isLoading && <Loader />}
         <Stack>
-          <Text component="h1" size="xl" fw={700}>
-            {Intl.DateTimeFormat(navigator.language, {
-              dateStyle: "full",
-            }).format(targetDate)}
-          </Text>
+          <Group justify="space-between">
+            <Text component="h1" size="xl" fw={700}>
+              {Intl.DateTimeFormat(navigator.language, {
+                dateStyle: "full",
+              }).format(targetDate)}
+            </Text>
+            <Tooltip
+              label={
+                <>
+                  <Kbd>ctrl</Kbd> + <Kbd>o</Kbd>
+                </>
+              }
+            >
+              <Button variant="subtle" disabled={isLoading} onClick={open}>
+                New Task
+              </Button>
+            </Tooltip>
+          </Group>
           {tasks && tasks.length > 0 ? (
             <TaskList tasks={tasks} />
           ) : (
@@ -104,7 +119,7 @@ export function Tasks() {
             </Text>
           )}
         </Stack>
-        <NewTaskModal date={targetDate} />
+        <NewTaskModal date={targetDate} opened={opened} onClose={close} />
       </Container>
     </>
   );
