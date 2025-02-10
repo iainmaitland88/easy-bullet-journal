@@ -46,59 +46,53 @@ export function Tasks() {
     <>
       <Header />
       <Container>
-        <Group justify="space-between" mb="md">
-          <Tooltip
-            label={
-              <>
-                <Kbd>ctrl</Kbd> + <Kbd>p</Kbd>
-              </>
-            }
-          >
-            <Button
-              variant="subtle"
-              component={Link}
-              to={`/tasks/${format(yesterday, "yyyy-MM-dd")}`}
-              leftSection={<IconArrowBigLeftLines />}
-            >
-              Yesterday
-            </Button>
-          </Tooltip>
-          <Tooltip
-            label={
-              <>
-                <Kbd>ctrl</Kbd> + <Kbd>0</Kbd>
-              </>
-            }
-          >
-            <Button variant="subtle" component={Link} to={`/tasks`}>
-              Today
-            </Button>
-          </Tooltip>
-          <Tooltip
-            label={
-              <>
-                <Kbd>ctrl</Kbd> + <Kbd>n</Kbd>
-              </>
-            }
-          >
-            <Button
-              variant="subtle"
-              component={Link}
-              to={`/tasks/${format(tomorrow, "yyyy-MM-dd")}`}
-              rightSection={<IconArrowBigRightLines />}
-            >
-              Tomorrow
-            </Button>
-          </Tooltip>
-        </Group>
-        {isLoading && <Loader />}
         <Stack>
           <Group justify="space-between">
-            <Text component="h1" size="xl" fw={700}>
-              {Intl.DateTimeFormat(navigator.language, {
-                dateStyle: "full",
-              }).format(targetDate)}
-            </Text>
+            <Group>
+              <Tooltip
+                label={
+                  <>
+                    <Kbd>ctrl</Kbd> + <Kbd>p</Kbd>
+                  </>
+                }
+              >
+                <Button
+                  variant="subtle"
+                  component={Link}
+                  to={`/tasks/${format(yesterday, "yyyy-MM-dd")}`}
+                  leftSection={<IconArrowBigLeftLines />}
+                >
+                  Yesterday
+                </Button>
+              </Tooltip>
+              <Tooltip
+                label={
+                  <>
+                    <Kbd>ctrl</Kbd> + <Kbd>0</Kbd>
+                  </>
+                }
+              >
+                <Button variant="subtle" component={Link} to={`/tasks`}>
+                  Today
+                </Button>
+              </Tooltip>
+              <Tooltip
+                label={
+                  <>
+                    <Kbd>ctrl</Kbd> + <Kbd>n</Kbd>
+                  </>
+                }
+              >
+                <Button
+                  variant="subtle"
+                  component={Link}
+                  to={`/tasks/${format(tomorrow, "yyyy-MM-dd")}`}
+                  rightSection={<IconArrowBigRightLines />}
+                >
+                  Tomorrow
+                </Button>
+              </Tooltip>
+            </Group>
             <Tooltip
               label={
                 <>
@@ -111,13 +105,23 @@ export function Tasks() {
               </Button>
             </Tooltip>
           </Group>
-          {tasks && tasks.length > 0 ? (
-            <TaskList tasks={tasks} />
-          ) : (
-            <Text size="sm" c="dimmed">
-              No tasks. Try creating some with <Kbd>ctrl</Kbd> + <Kbd>o</Kbd>
-            </Text>
-          )}
+          {isLoading && <Loader />}
+          <Stack>
+            <Group justify="space-between">
+              <Text component="h1" size="xl" fw={700}>
+                {Intl.DateTimeFormat(navigator.language, {
+                  dateStyle: "full",
+                }).format(targetDate)}
+              </Text>
+            </Group>
+            {tasks && tasks.length > 0 ? (
+              <TaskList tasks={tasks} />
+            ) : (
+              <Text size="sm" c="dimmed">
+                No tasks. Try creating some with <Kbd>ctrl</Kbd> + <Kbd>o</Kbd>
+              </Text>
+            )}
+          </Stack>
         </Stack>
         <NewTaskModal date={targetDate} opened={opened} onClose={close} />
       </Container>
