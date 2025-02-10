@@ -7,12 +7,12 @@ interface Task {
   date: Date;
 }
 
-const db = new Dexie("tasks") as Dexie & {
+const db = new Dexie("easy-bullet-journal") as Dexie & {
   tasks: EntityTable<Task, "id">;
 };
 
 db.version(1).stores({
-  tasks: "++id, description, completed, date",
+  tasks: "++id, date",
 });
 
 export type { Task };
