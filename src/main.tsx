@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/react";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router";
@@ -51,6 +52,7 @@ const theme = createTheme({
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <MantineProvider theme={theme} defaultColorScheme="auto">
+      <Analytics />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Navigate to="/tasks" />} />
@@ -58,5 +60,5 @@ createRoot(document.getElementById("root")!).render(
         </Routes>
       </BrowserRouter>
     </MantineProvider>
-  </StrictMode>,
+  </StrictMode>
 );
