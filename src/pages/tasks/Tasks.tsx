@@ -1,5 +1,14 @@
 import { Header } from "../../components/header/Header";
-import { Button, Container, Group, Kbd, Tooltip } from "@mantine/core";
+import {
+  Button,
+  Container,
+  Group,
+  Kbd,
+  Loader,
+  Tooltip,
+  Text,
+  Stack,
+} from "@mantine/core";
 import { TaskList } from "../../components/tasks/TaskList";
 import { NewTaskModal } from "../../components/tasks/NewTaskModal";
 import { useMemo } from "react";
@@ -29,7 +38,7 @@ export function Tasks() {
   useHotkeys([["ctrl+p", () => navigate(prevPage)]]);
   useHotkeys([["ctrl+0", () => navigate("/tasks")]]);
 
-  const tasks = useTasksForDate(targetDate);
+  const { tasks, isLoading } = useTasksForDate(targetDate);
 
   return (
     <>
@@ -80,7 +89,21 @@ export function Tasks() {
             </Button>
           </Tooltip>
         </Group>
-        {tasks && <TaskList date={targetDate} tasks={tasks} />}
+        {isLoading && <Loader />}
+        <Stack>
+          <Text component="h1" size="xl" fw={700}>
+            {Intl.DateTimeFormat(navigator.language, {
+              dateStyle: "full",
+            }).format(targetDate)}
+          </Text>
+          {tasks && tasks.length > 0 ? (
+            <TaskList tasks={tasks} />
+          ) : (
+            <Text size="sm" c="dimmed">
+              No tasks. Try creating some with <Kbd>ctrl</Kbd> + <Kbd>o</Kbd>
+            </Text>
+          )}
+        </Stack>
         <NewTaskModal date={targetDate} />
       </Container>
     </>

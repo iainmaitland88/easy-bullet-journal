@@ -1,6 +1,6 @@
 import { DeleteTaskModal } from "../../components/tasks/DeleteTaskModal";
 import { IconTrashX } from "@tabler/icons-react";
-import { Button, Checkbox, Group, Paper, Text, Tooltip } from "@mantine/core";
+import { Button, Checkbox, Group, Paper, Tooltip } from "@mantine/core";
 import { useState } from "react";
 import classes from "./TaskList.module.css";
 import { Task, db } from "../../lib/db";
@@ -69,17 +69,12 @@ function TaskListItem({
   );
 }
 
-export function TaskList({ date, tasks }: { date: Date; tasks: Task[] }) {
+export function TaskList({ tasks }: { tasks: Task[] }) {
   const [taskToDelete, setTaskToDelete] = useState<Task | null>(null);
   const completeTask = useCompleteTask();
 
   return (
     <div>
-      <Text component="h1" size="xl" fw={700} mb="md">
-        {Intl.DateTimeFormat(navigator.language, { dateStyle: "full" }).format(
-          date,
-        )}
-      </Text>
       {tasks.map((task) => (
         <TaskListItem
           key={task.id}
