@@ -7,6 +7,7 @@ import "./global.module.css";
 
 import { createTheme, MantineProvider, Modal } from "@mantine/core";
 import { KeyBindingsProvider } from "./lib/contexts/key-bindings-provider.tsx";
+import { NotFound } from "./pages/not-found/NotFound.tsx";
 import { Tasks } from "./pages/tasks/Tasks.tsx";
 const theme = createTheme({
   fontFamily: "Montserrat, sans-serif",
@@ -59,6 +60,7 @@ createRoot(document.getElementById("root")!).render(
           <Routes>
             <Route path="/" element={<Navigate to="/tasks" />} />
             <Route path="/tasks/:date?" element={<Tasks />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
       </KeyBindingsProvider>

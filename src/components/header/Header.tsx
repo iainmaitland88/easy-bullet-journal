@@ -6,6 +6,7 @@ import {
   useMantineColorScheme,
 } from "@mantine/core";
 import { IconMoon, IconSun } from "@tabler/icons-react";
+import { Link } from "react-router";
 
 export function Header() {
   const { setColorScheme } = useMantineColorScheme();
@@ -17,6 +18,9 @@ export function Header() {
     <header>
       <Container fluid py={16}>
         <Group gap={5} justify="flex-end">
+          <Button component={Link} to="/settings">
+            Settings
+          </Button>
           <Button
             onClick={() => toggleColorScheme()}
             variant="subtle"
