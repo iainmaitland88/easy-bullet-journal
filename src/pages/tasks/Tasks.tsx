@@ -1,25 +1,28 @@
-import { Header } from "../../components/header/Header";
 import {
   Button,
   Container,
   Group,
-  Kbd,
   Loader,
-  Tooltip,
-  Text,
   Stack,
+  Text,
+  Tooltip,
 } from "@mantine/core";
-import { TaskList } from "../../components/tasks/TaskList";
-import { NewTaskModal } from "../../components/tasks/NewTaskModal";
-import { useMemo } from "react";
-import { Link, useNavigate, useParams } from "react-router";
-import { addDays, format, parse, subDays } from "date-fns";
+import { useDisclosure, useHotkeys } from "@mantine/hooks";
 import {
   IconArrowBigLeftLines,
   IconArrowBigRightLines,
 } from "@tabler/icons-react";
+import { addDays, format, parse, subDays } from "date-fns";
+import { useContext, useMemo } from "react";
+import { Link, useNavigate, useParams } from "react-router";
+import { Header } from "../../components/header/Header";
+import { NewTaskModal } from "../../components/tasks/NewTaskModal";
+import { TaskList } from "../../components/tasks/TaskList";
+import {
+  formattedKeyBinding as formatKeyBinding,
+  KeyBindingsContext,
+} from "../../lib/contexts/key-bindings";
 import { useTasksForDate } from "../../lib/hooks";
-import { useDisclosure, useHotkeys } from "@mantine/hooks";
 
 export function Tasks() {
   const { date: dateParam } = useParams();
@@ -34,13 +37,14 @@ export function Tasks() {
   const prevPage = `/tasks/${format(yesterday, "yyyy-MM-dd")}`;
 
   const navigate = useNavigate();
-  useHotkeys([["ctrl+n", () => navigate(nextPage)]]);
-  useHotkeys([["ctrl+p", () => navigate(prevPage)]]);
-  useHotkeys([["ctrl+0", () => navigate("/tasks")]]);
+  const { keyBindings } = useContext(KeyBindingsContext);
+  useHotkeys([[keyBindings["next day"].key, () => navigate(nextPage)]]);
+  useHotkeys([[keyBindings["previous day"].key, () => navigate(prevPage)]]);
+  useHotkeys([[keyBindings["today"].key, () => navigate("/tasks")]]);
 
   const { tasks, isLoading } = useTasksForDate(targetDate);
   const [opened, { open, close }] = useDisclosure(false);
-  useHotkeys([["ctrl+o", () => open()]]);
+  useHotkeys([[keyBindings["new task"].key, () => open()]]);
 
   return (
     <>
@@ -49,13 +53,7 @@ export function Tasks() {
         <Stack>
           <Group justify="space-between">
             <Group>
-              <Tooltip
-                label={
-                  <>
-                    <Kbd>ctrl</Kbd> + <Kbd>p</Kbd>
-                  </>
-                }
-              >
+              <Tooltip label={formatKeyBinding(keyBindings["previous day"])}>
                 <Button
                   variant="subtle"
                   component={Link}
@@ -65,24 +63,12 @@ export function Tasks() {
                   Yesterday
                 </Button>
               </Tooltip>
-              <Tooltip
-                label={
-                  <>
-                    <Kbd>ctrl</Kbd> + <Kbd>0</Kbd>
-                  </>
-                }
-              >
+              <Tooltip label={formatKeyBinding(keyBindings["today"])}>
                 <Button variant="subtle" component={Link} to={`/tasks`}>
                   Today
                 </Button>
               </Tooltip>
-              <Tooltip
-                label={
-                  <>
-                    <Kbd>ctrl</Kbd> + <Kbd>n</Kbd>
-                  </>
-                }
-              >
+              <Tooltip label={formatKeyBinding(keyBindings["next day"])}>
                 <Button
                   variant="subtle"
                   component={Link}
@@ -93,13 +79,7 @@ export function Tasks() {
                 </Button>
               </Tooltip>
             </Group>
-            <Tooltip
-              label={
-                <>
-                  <Kbd>ctrl</Kbd> + <Kbd>o</Kbd>
-                </>
-              }
-            >
+            <Tooltip label={formatKeyBinding(keyBindings["new task"])}>
               <Button variant="subtle" disabled={isLoading} onClick={open}>
                 New Task
               </Button>
@@ -118,7 +98,8 @@ export function Tasks() {
               <TaskList tasks={tasks} />
             ) : (
               <Text size="sm" c="dimmed">
-                No tasks. Try creating some with <Kbd>ctrl</Kbd> + <Kbd>o</Kbd>
+                No tasks. Try creating some with{" "}
+                {formatKeyBinding(keyBindings["new task"])}
               </Text>
             )}
           </Stack>
